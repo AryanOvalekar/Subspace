@@ -17,6 +17,8 @@
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
+int selectX = 0;
+int selectY = 0;
 bool mode = 0; // False for inventory mode, true for selection mode
 
 // Sends byte for row data
@@ -63,20 +65,30 @@ void displayInventory(){
 }
 
 void displaySelection(unsigned long keycode){
-    Serial.println(keycode);
     if (keycode == UP){
-        Serial.println("UP");
+        if (selectY == 0)
+            return;
+        selectY = selectY - 1;
     } else if (keycode == RIGHT) {
-        Serial.println("RIGHT");
+        if (selectX == 7)
+            return;
+        selectX = selectX + 1;
     } else if (keycode == LEFT) {
-        Serial.println("LEFT");
+        if (selectX == 0)
+            return;
+        selectX = selectX - 1;
     } else if (keycode == DOWN) {
-        Serial.println("DOWN");
+        if (selectY == 7)
+            return;
+        selectY = selectY + 1;
     } else if (keycode == DESPOSIT) {
         Serial.println("DEPOSIT");
     } else if (keycode == WITHDRAW) {
         Serial.println("WITHDRAW");
     }
+
+    selection[selectX][selectY] = true;
+    displayMatrix(selection);
 }
 
 void update(unsigned long keycode){
