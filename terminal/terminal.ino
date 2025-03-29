@@ -1,12 +1,13 @@
 #include <IRremote.h>
 
-
 #define MAX7219_CLK  10 
 #define MAX7219_CS   9
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
 
-bool ledDisplayPattern[8][8] = {false};
+bool inventory[8][8] = {false};
+bool selection[8][8] = {false};
+bool mode = 0; // False for inventory mode, true for selection mode
 
 // Sends byte for row data
 void writeLEDMatrixByte(byte data) {
@@ -47,12 +48,40 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
+void displayInventory(){
+    displayMatrix(inventory);
+}
+
+void displaySelection(unsigned long keycode){
+
+    if (keycode == "18"){
+        Serial.println("UP");
+    } else if (keycode == "5A") {
+        Serial.println("RIGHT");
+    } else if (keycode == "8") {
+        Serial.println("LEFT");
+    } else if (keycode == "52") {
+        Serial.println("DOWN");
+    }
+}
+
+void update(unsigned long keycode){
+    //ADD MODE TOGGLE
+
+    if (!mode) { // Inventory Mode
+        displayInventory();
+    } else { // Selection Mode
+        displaySelection(keycode);
+    }
+}
+
 void setup() {
     pinMode(MAX7219_CLK, OUTPUT);
     pinMode(MAX7219_CS, OUTPUT);
     pinMode(MAX7219_DIN, OUTPUT);
+
     initLEDMatrix();
-    displayMatrix(ledDisplayPattern);
+    displayMatrix(inventory);
 
     Serial.begin(115200);
     IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
@@ -60,11 +89,12 @@ void setup() {
 
 void loop()
 {
-   if (IrReceiver.decode())
-   {
-      unsigned long keycode = IrReceiver.decodedIRData.command;
-      Serial.println(keycode, HEX);
-      delay(150);
-      IrReceiver.resume();
-   }
+    unsigned long keycode = 1000;
+    if (IrReceiver.decode()) {
+        keycode = IrReceiver.decodedIRData.command;
+        Serial.println(keycode, HEX);
+        update(keycode);
+        delay(150);
+        IrReceiver.resume();
+    }
 }
