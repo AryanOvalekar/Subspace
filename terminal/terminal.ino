@@ -70,6 +70,8 @@ void deposit(){
     //DEPOSIT ANIMATION
     mode = false;
     displayInventory();
+    selectX = 0;
+    selectY = 0;
 }
 
 void withdraw(){
@@ -81,6 +83,8 @@ void withdraw(){
     //WITHDRAW ANIMATION
     mode = false;
     displayInventory();
+    selectX = 0;
+    selectY = 0;
 }
 
 void displayInventory(){
