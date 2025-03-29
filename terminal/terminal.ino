@@ -18,7 +18,8 @@
 #define WITHDRAW   9
 
 #define INPUTSPEED 150
-#define ANIMATIONSPEED 50
+#define ANIMATIONSPEED 100
+#define ERRORTIME 1000
 
 RH_ASK driver(2000);
 
@@ -66,8 +67,26 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
+void errorAnimation(){
+    //illegal messaging shape
+    bool animation[8][8] = {
+        {1, 0, 0, 0, 0, 0, 0, 1},
+        {0, 1, 0, 0, 0, 0, 1, 0},
+        {0, 0, 1, 0, 0, 1, 0, 0},
+        {0, 0, 0, 1, 1, 0, 0, 0},
+        {0, 0, 0, 1, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 1, 0, 0},
+        {0, 1, 0, 0, 0, 0, 1, 0},
+        {1, 0, 0, 0, 0, 0, 0, 1}
+    };
+    displayMatrix(animation);
+    delay(ERRORTIME);
+    displayMatrix(selection);
+}
+
 void loadingAnimation() {
-    bool animation[8][8] = {  // Arrow shape
+    // Arrow shape
+    bool animation[8][8] = {
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
@@ -78,17 +97,57 @@ void loadingAnimation() {
         {0, 0, 0, 0, 0, 0, 0, 0 }
     };
 
-    bool frame[8][8] = {false};  // Blank matrix to build animation
+    bool frame[8][8] = {false};
 
-    for (int row = 0; row < 8; row++) {
-        // Copy only the visible part of the arrow into the frame
-        for (int i = 0; i <= row; i++) {
+    for (int offset = -8; offset <= 8; offset++) {
+        for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                frame[i][j] = animation[i][j];
+                frame[i][j] = false;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            int srcRow = i - offset;
+            if (srcRow >= 0 && srcRow < 8) {
+                for (int j = 0; j < 8; j++) {
+                    frame[i][j] = animation[srcRow][j];
+                }
+            }
+        }
+        displayMatrix(frame);
+        delay(ANIMATIONSPEED);
+    }
+}
+
+void loadingAnimation2() {
+    bool animation[8][8] = {
+        {0, 0, 0, 0, 0, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 1, 1, 1, 1, 0, 0 },
+        {0, 1, 1, 1, 1, 1, 1, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 }
+    };
+
+    bool frame[8][8] = {false};
+
+    for (int offset = -8; offset <= 8; offset++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                frame[i][j] = false;
             }
         }
 
-        // Display the current frame
+        for (int i = 0; i < 8; i++) {
+            int srcRow = i + offset;
+            if (srcRow >= 0 && srcRow < 8) {
+                for (int j = 0; j < 8; j++) {
+                    frame[i][j] = animation[srcRow][j];
+                }
+            }
+        }
+
         displayMatrix(frame);
         delay(ANIMATIONSPEED);
     }
@@ -96,7 +155,7 @@ void loadingAnimation() {
 
 void deposit(){
     if (inventory[selectY][selectX]){
-        //PRINT ERROR MESSAGE: SLOT FULL
+        errorAnimation();
         return;
     }
     inventory[selectY][selectX] = true;
@@ -109,16 +168,18 @@ void deposit(){
 
 void withdraw(){
     if (!inventory[selectY][selectX]){
-        //PRINT ERROR MESSAGE: SLOT EMPTY
+        errorAnimation();
         return;
     }
     inventory[selectY][selectX] = false;
-    loadingAnimation();
+    loadingAnimation2();
     mode = false;
     displayInventory();
     selectX = 0;
     selectY = 0;
 }
+
+
 
 void displayInventory(){
     displayMatrix(inventory);
