@@ -1,3 +1,6 @@
+#include <IRremote.h>
+
+
 #define MAX7219_CLK  10 
 #define MAX7219_CS   9
 #define MAX7219_DIN  8
@@ -50,9 +53,18 @@ void setup() {
     pinMode(MAX7219_DIN, OUTPUT);
     initLEDMatrix();
     displayMatrix(ledDisplayPattern);
+
+    Serial.begin(115200);
+    IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
 }
 
-void loop() {
-
-
+void loop()
+{
+   if (IrReceiver.decode())
+   {
+      unsigned long keycode = IrReceiver.decodedIRData.command;
+      Serial.println(keycode, HEX);
+      delay(150);
+      IrReceiver.resume();
+   }
 }
