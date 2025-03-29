@@ -65,6 +65,16 @@ void displayMatrix(bool matrix[8][8]) {
 void loadingAnimation(){
     bool animation[8][8] = {false};
     displayMatrix(animation);
+    bool animation[8][8] = {
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 1, 1, 1, 1, 1, 1, 0 },
+        {0, 0, 1, 1, 1, 1, 0, 0 },
+        {0, 0, 0, 1, 1, 0, 0, 0 },
+        {0, 0, 0, 0, 0, 0, 0, 0 }
+    }
 
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
