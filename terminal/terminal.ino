@@ -3,16 +3,6 @@
 #define MAX7219_DIN  8
 
 bool ledDisplayPattern[8][8] = {false};
-bool ledDisplayPattern2[8][8] = {
-    {1,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,1,0},
-    {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0}
-};
 
 // Sends byte for row data
 void writeLEDMatrixByte(byte data) {
@@ -58,17 +48,10 @@ void setup() {
     pinMode(MAX7219_CS, OUTPUT);
     pinMode(MAX7219_DIN, OUTPUT);
     initLEDMatrix();
-    displayMatrix(ledDisplayPattern2);
+    displayMatrix(ledDisplayPattern);
 }
 
 void loop() {
-    delay(3000000);
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            ledDisplayPattern[i][j] = true;
-        }
-    }
 
-    displayMatrix(ledDisplayPattern);
 
 }
