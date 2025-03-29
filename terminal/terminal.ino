@@ -32,11 +32,10 @@ void initLEDMatrix() {
 
 // Function to display an 8x8 boolean matrix
 void displayMatrix(bool matrix[8][8]) {
-    bool** rotatedMatrix = rotateMatrix(originalMatrix);
     for (byte row = 0; row < 8; row++) {
         byte rowData = 0;
         for (byte col = 0; col < 8; col++) {
-            if (rotatedMatrix[row][col]) {
+            if (matrix[row][col]) {
                 rowData |= (1 << (7 - col));
             }
         }
