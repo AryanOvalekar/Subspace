@@ -10,10 +10,14 @@
 #define LEFT   8
 #define DOWN   82
 
+#define DESPOSIT   7
+#define CHANGEMODE 21
+#define WITHDRAW   9
+
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
-bool mode = 1; // False for inventory mode, true for selection mode
+bool mode = 0; // False for inventory mode, true for selection mode
 
 // Sends byte for row data
 void writeLEDMatrixByte(byte data) {
@@ -68,11 +72,17 @@ void displaySelection(unsigned long keycode){
         Serial.println("LEFT");
     } else if (keycode == DOWN) {
         Serial.println("DOWN");
+    } else if (keycode == DESPOSIT) {
+        Serial.println("DEPOSIT");
+    } else if (keycode == WITHDRAW) {
+        Serial.println("WITHDRAW");
     }
 }
 
 void update(unsigned long keycode){
-    //ADD MODE TOGGLE
+    if (keycode == CHANGEMODE) {
+        mode = !mode;
+    }
 
     if (!mode) { // Inventory Mode
         displayInventory();
