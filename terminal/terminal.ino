@@ -1,4 +1,6 @@
 #include <IRremote.h>
+#include <RH_ASK.h>
+#include <SPI.h>
 
 #define MAX7219_CLK  10 
 #define MAX7219_CS   9
@@ -17,6 +19,7 @@
 #define INPUTSPEED 150
 #define ANIMATIONSPEED 50
 
+RH_ASK driver;
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
@@ -169,6 +172,7 @@ void setup() {
 
     Serial.begin(115200);
     IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
+    driver.init()
 }
 
 void loop()
@@ -180,4 +184,9 @@ void loop()
         delay(INPUTSPEED);
         IrReceiver.resume();
     }
+
+    const char *msg = "Hello World!";
+    driver.send((uint8_t *)msg, strlen(msg));
+    driver.waitPacketSent();
+    delay(1000);
 }
