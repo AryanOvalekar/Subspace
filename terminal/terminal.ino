@@ -6,6 +6,7 @@
 #define MAX7219_CS   9
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
+#define RH_TRANSMITTER_PIN  12
 
 #define UP     24
 #define RIGHT  90
@@ -19,7 +20,7 @@
 #define INPUTSPEED 150
 #define ANIMATIONSPEED 50
 
-RH_ASK driver;
+RH_ASK driver(2000);
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
@@ -66,8 +67,6 @@ void displayMatrix(bool matrix[8][8]) {
 }
 
 void loadingAnimation(){
-    bool animation[8][8] = {false};
-    displayMatrix(animation);
     bool animation[8][8] = {
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
@@ -77,7 +76,8 @@ void loadingAnimation(){
         {0, 0, 1, 1, 1, 1, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 0, 0, 0, 0, 0 }
-    }
+    };
+    displayMatrix(animation);
 
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
@@ -172,7 +172,7 @@ void setup() {
 
     Serial.begin(115200);
     IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
-    driver.init()
+    driver.init();
 }
 
 void loop()
