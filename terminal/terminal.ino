@@ -14,6 +14,8 @@
 #define CHANGEMODE 21
 #define WITHDRAW   9
 
+#define INPUTSPEED 150
+
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
@@ -59,6 +61,28 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
+void deposit(){
+    if (inventory[selectY][selectX]){
+        //PRINT ERROR MESSAGE: SLOT FULL
+        return;
+    }
+    inventory[selectY][selectX] = true;
+    //DEPOSIT ANIMATION
+    mode = false;
+    displayInventory();
+}
+
+void withdraw(){
+    if (!inventory[selectY][selectX]){
+        //PRINT ERROR MESSAGE: SLOT EMPTY
+        return;
+    }
+    inventory[selectY][selectX] = false;
+    //WITHDRAW ANIMATION
+    mode = false;
+    displayInventory();
+}
+
 void displayInventory(){
     displayMatrix(inventory);
 }
@@ -81,9 +105,11 @@ void displaySelection(unsigned long keycode){
             return;
         selectY = selectY + 1;
     } else if (keycode == DESPOSIT) {
-        Serial.println("DEPOSIT");
+        deposit();
+        return;
     } else if (keycode == WITHDRAW) {
-        Serial.println("WITHDRAW");
+        withdraw();
+        return;
     }
 
     selection[lastY][lastX] = false;
@@ -123,7 +149,7 @@ void loop()
     if (IrReceiver.decode()) {
         keycode = IrReceiver.decodedIRData.command;
         update(keycode);
-        delay(150);
+        delay(INPUTSPEED);
         IrReceiver.resume();
     }
 }
