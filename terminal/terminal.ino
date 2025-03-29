@@ -87,7 +87,7 @@ void displaySelection(unsigned long keycode){
         Serial.println("WITHDRAW");
     }
 
-    selection[selectX][selectY] = true;
+    selection[selectY][selectX] = true;
     displayMatrix(selection);
 }
 
