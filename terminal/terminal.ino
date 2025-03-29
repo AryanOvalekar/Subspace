@@ -5,7 +5,7 @@
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
 
-#define UP     34
+#define UP     24
 #define RIGHT  90
 #define LEFT   8
 #define DOWN   82
@@ -13,7 +13,7 @@
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
-bool mode = 0; // False for inventory mode, true for selection mode
+bool mode = 1; // False for inventory mode, true for selection mode
 
 // Sends byte for row data
 void writeLEDMatrixByte(byte data) {
