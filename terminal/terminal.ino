@@ -5,6 +5,12 @@
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
 
+#define UP     34
+#define RIGHT  90
+#define LEFT   8
+#define DOWN   82
+
+
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
 bool mode = 0; // False for inventory mode, true for selection mode
@@ -53,14 +59,14 @@ void displayInventory(){
 }
 
 void displaySelection(unsigned long keycode){
-
-    if (keycode == "18"){
+    Serial.println(keycode);
+    if (keycode == UP){
         Serial.println("UP");
-    } else if (keycode == "5A") {
+    } else if (keycode == RIGHT) {
         Serial.println("RIGHT");
-    } else if (keycode == "8") {
+    } else if (keycode == LEFT) {
         Serial.println("LEFT");
-    } else if (keycode == "52") {
+    } else if (keycode == DOWN) {
         Serial.println("DOWN");
     }
 }
@@ -92,7 +98,6 @@ void loop()
     unsigned long keycode = 1000;
     if (IrReceiver.decode()) {
         keycode = IrReceiver.decodedIRData.command;
-        Serial.println(keycode, HEX);
         update(keycode);
         delay(150);
         IrReceiver.resume();
