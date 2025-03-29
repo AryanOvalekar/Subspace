@@ -68,7 +68,14 @@ void displayMatrix(bool matrix[8][8]) {
 void loadingAnimation(){
     bool animation[8][8] = {false};
     displayMatrix(animation);
-    delay(ANIMATIONSPEED);
+
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+            animation[i][j] = true;
+            displayMatrix(animation);
+            delay(ANIMATIONSPEED);
+        }
+    }
 }
 
 void deposit(){
