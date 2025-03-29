@@ -17,8 +17,7 @@
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
-int selectX = 0;
-int selectY = 0;
+int selectX = 0, selectY = 0, lastX = 0, lastY = 0;
 bool mode = 0; // False for inventory mode, true for selection mode
 
 // Sends byte for row data
@@ -87,7 +86,10 @@ void displaySelection(unsigned long keycode){
         Serial.println("WITHDRAW");
     }
 
+    selection[lastY][lastX] = false;
     selection[selectY][selectX] = true;
+    lastX = selectX;
+    lastY = selectY;
     displayMatrix(selection);
 }
 
