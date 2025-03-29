@@ -153,6 +153,11 @@ void loadingAnimation2() {
     }
 }
 
+void sendMessage(char *msg){
+    driver.send((uint8_t *)msg, strlen(msg));
+    driver.waitPacketSent();
+}
+
 void deposit(){
     if (inventory[selectY][selectX]){
         errorAnimation();
@@ -252,8 +257,8 @@ void loop()
         IrReceiver.resume();
     }
 
-    const char *msg = "Hello World!";
-    driver.send((uint8_t *)msg, strlen(msg));
-    driver.waitPacketSent();
-    delay(500);
+    char *msg = "Hello World!";
+    sendMessage(msg);
+
+    delay(50);
 }
