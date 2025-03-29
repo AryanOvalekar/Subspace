@@ -66,8 +66,8 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
-void loadingAnimation(){
-    bool animation[8][8] = {
+void loadingAnimation() {
+    bool animation[8][8] = {  // Arrow shape
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 1, 1, 0, 0, 0 },
@@ -77,14 +77,20 @@ void loadingAnimation(){
         {0, 0, 0, 1, 1, 0, 0, 0 },
         {0, 0, 0, 0, 0, 0, 0, 0 }
     };
-    displayMatrix(animation);
 
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++){
-            animation[i][j] = true;
-            displayMatrix(animation);
-            delay(ANIMATIONSPEED);
+    bool frame[8][8] = {false};  // Blank matrix to build animation
+
+    for (int row = 0; row < 8; row++) {
+        // Copy only the visible part of the arrow into the frame
+        for (int i = 0; i <= row; i++) {
+            for (int j = 0; j < 8; j++) {
+                frame[i][j] = animation[i][j];
+            }
         }
+
+        // Display the current frame
+        displayMatrix(frame);
+        delay(ANIMATIONSPEED);
     }
 }
 
@@ -188,5 +194,5 @@ void loop()
     const char *msg = "Hello World!";
     driver.send((uint8_t *)msg, strlen(msg));
     driver.waitPacketSent();
-    delay(1000);
+    delay(500);
 }
