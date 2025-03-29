@@ -74,7 +74,7 @@ void deposit(){
         return;
     }
     inventory[selectY][selectX] = true;
-    loadingAnimation()
+    loadingAnimation();
     mode = false;
     displayInventory();
     selectX = 0;
@@ -87,7 +87,7 @@ void withdraw(){
         return;
     }
     inventory[selectY][selectX] = false;
-    loadingAnimation()
+    loadingAnimation();
     mode = false;
     displayInventory();
     selectX = 0;
