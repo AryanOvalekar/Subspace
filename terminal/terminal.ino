@@ -15,6 +15,7 @@
 #define WITHDRAW   9
 
 #define INPUTSPEED 150
+#define ANIMATIONSPEED 50
 
 
 bool inventory[8][8] = {false};
@@ -61,13 +62,19 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
+void loadingAnimation(){
+    bool animation[8][8] = {false};
+    displayMatrix(animation);
+    delay(ANIMATIONSPEED);
+}
+
 void deposit(){
     if (inventory[selectY][selectX]){
         //PRINT ERROR MESSAGE: SLOT FULL
         return;
     }
     inventory[selectY][selectX] = true;
-    //DEPOSIT ANIMATION
+    loadingAnimation()
     mode = false;
     displayInventory();
     selectX = 0;
@@ -80,7 +87,7 @@ void withdraw(){
         return;
     }
     inventory[selectY][selectX] = false;
-    //WITHDRAW ANIMATION
+    loadingAnimation()
     mode = false;
     displayInventory();
     selectX = 0;
