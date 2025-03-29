@@ -8,7 +8,7 @@ bool ledDisplayPattern2[8][8] = {
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,1,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0}
@@ -45,8 +45,8 @@ void displayMatrix(bool matrix[8][8]) {
     for (byte row = 0; row < 8; row++) {
         byte rowData = 0;
         for (byte col = 0; col < 8; col++) {
-            if (matrix[col][7 - row]) { 
-                rowData |= (1 << (row));
+            if (matrix[col][row]) { 
+                rowData |= (1 << (col));
             }
         }
         writeLEDMatrix(row + 1, rowData);
@@ -62,7 +62,7 @@ void setup() {
 }
 
 void loop() {
-    delay(200);
+    delay(3000000);
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             ledDisplayPattern[i][j] = true;
