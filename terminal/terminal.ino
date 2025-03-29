@@ -1,6 +1,7 @@
 #define MAX7219_CLK  10 
 #define MAX7219_CS   9
 #define MAX7219_DIN  8
+#define IR_RECV_PIN  11
 
 bool ledDisplayPattern[8][8] = {false};
 
