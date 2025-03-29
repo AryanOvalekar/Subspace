@@ -153,7 +153,14 @@ void loadingAnimation2() {
     }
 }
 
-void sendMessage(char *msg){
+void sendCommand(bool isDeposit){
+    char msg[4];
+    if(isDeposit){
+        sprintf(msg, "d%d%d", selectX, selectY);
+    } else {
+        sprintf(msg, "w%d%d", selectX, selectY);
+    }
+
     driver.send((uint8_t *)msg, strlen(msg));
     driver.waitPacketSent();
 }
@@ -164,6 +171,7 @@ void deposit(){
         return;
     }
     inventory[selectY][selectX] = true;
+    sendCommand(true);
     loadingAnimation();
     mode = false;
     displayInventory();
@@ -177,6 +185,7 @@ void withdraw(){
         return;
     }
     inventory[selectY][selectX] = false;
+    sendCommand(false);
     loadingAnimation2();
     mode = false;
     displayInventory();
@@ -256,9 +265,4 @@ void loop()
         delay(INPUTSPEED);
         IrReceiver.resume();
     }
-
-    char *msg = "Hello World!";
-    sendMessage(msg);
-
-    delay(50);
 }
