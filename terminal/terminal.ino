@@ -86,6 +86,34 @@ void printSelection(){
     lcd.print("Slot...");
 }
 
+void printDeposit(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Depositing");
+    lcd.setCursor(0,1);
+    lcd.print("Item...");
+}
+
+void printWithdrawl(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Withdrawing");
+    lcd.setCursor(0,1);
+    lcd.print("Item...");
+}
+
+void printErrorFull(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Slot Full!");
+}
+
+void printErrorEmpty(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Slot Empty!");
+}
+
 void errorAnimation(){
     //illegal messaging shape
     bool animation[8][8] = {
