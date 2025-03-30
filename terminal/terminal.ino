@@ -214,28 +214,36 @@ void sendCommand(bool isDeposit){
 
 void deposit(){
     if (inventory[selectY][selectX]){
+        printErrorFull();
         errorAnimation();
+        printSelection();
         return;
     }
     inventory[selectY][selectX] = true;
     sendCommand(true);
+    printDeposit();
     loadingAnimation();
     mode = false;
     displayInventory();
+    printInventory();
     selectX = 0;
     selectY = 0;
 }
 
 void withdraw(){
     if (!inventory[selectY][selectX]){
+        printErrorEmpty();
         errorAnimation();
+        printSelection();
         return;
     }
     inventory[selectY][selectX] = false;
     sendCommand(false);
+    printWithdrawl();
     loadingAnimation2();
     mode = false;
     displayInventory();
+    printInventory();
     selectX = 0;
     selectY = 0;
 }
