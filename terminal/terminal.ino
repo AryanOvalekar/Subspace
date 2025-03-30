@@ -241,13 +241,18 @@ void update(unsigned long keycode){
 
     if (!mode) { // Inventory Mode
         displayInventory();
+    } else { // Selection Mode
+        displaySelection(keycode);
+    }
+
+    if (!mode && keycode == CHANGEMODE){
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Displaying");
         lcd.setCursor(0,1);
         lcd.print("Inventory");
-    } else { // Selection Mode
-        displaySelection(keycode);
+    }
+    if (mode && keycode == CHANGEMODE){
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Selecting Item");
