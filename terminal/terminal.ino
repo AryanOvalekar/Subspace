@@ -7,6 +7,8 @@
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
 #define RH_TRANSMITTER_PIN  12
+#define LCD_SDA_PIN  1
+#define LCD_SCL_PIN  2
 
 #define UP     24
 #define RIGHT  90
