@@ -178,7 +178,6 @@ void sendCommand(bool isDeposit){
 
 void deposit(){
     if (inventory[selectY][selectX]){
-        printToScreen("Slot Full!", "");
         errorAnimation();
         printToScreen("Selecting Item", "Slot...");
     } else {
@@ -196,7 +195,6 @@ void deposit(){
 
 void withdraw(){
     if (!inventory[selectY][selectX]){
-        printToScreen("Slot Empty!", "");
         errorAnimation();
         printToScreen("Selecting Item", "Slot...");
     } else {
