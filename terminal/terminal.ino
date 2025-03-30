@@ -70,6 +70,22 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
+void printInventory(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Displaying");
+    lcd.setCursor(0,1);
+    lcd.print("Inventory");
+}
+
+void printSelection(){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Selecting Item");
+    lcd.setCursor(0,1);
+    lcd.print("Slot...");
+}
+
 void errorAnimation(){
     //illegal messaging shape
     bool animation[8][8] = {
@@ -246,18 +262,10 @@ void update(unsigned long keycode){
     }
 
     if (!mode && keycode == CHANGEMODE){
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Displaying");
-        lcd.setCursor(0,1);
-        lcd.print("Inventory");
+        printInventory();
     }
     if (mode && keycode == CHANGEMODE){
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Selecting Item");
-        lcd.setCursor(0,1);
-        lcd.print("Slot...");
+        printSelection()
     }
 }
 
