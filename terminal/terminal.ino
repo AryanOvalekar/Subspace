@@ -1,6 +1,7 @@
 #include <IRremote.h>
 #include <RH_ASK.h>
 #include <SPI.h>
+#include <LiquidCrystal_I2C.h>
 
 #define MAX7219_CLK  10 
 #define MAX7219_CS   9
@@ -24,6 +25,8 @@
 #define ERRORTIME 1000
 
 RH_ASK driver(2000);
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 bool inventory[8][8] = {false};
 bool selection[8][8] = {false};
@@ -256,6 +259,8 @@ void setup() {
     Serial.begin(115200);
     IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
     driver.init();
+    lcd.init();
+    lcd.backlight();
 }
 
 void loop()
@@ -267,4 +272,11 @@ void loop()
         delay(INPUTSPEED);
         IrReceiver.resume();
     }
+
+    lcd.setCursor(0,0);
+    lcd.print("waka :3");
+    delay(1000);
+    lcd.clear();
+    delay(1000);
+
 }
