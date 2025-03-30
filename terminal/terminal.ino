@@ -8,8 +8,6 @@
 #define MAX7219_DIN  8
 #define IR_RECV_PIN  11
 #define RH_TRANSMITTER_PIN  12
-#define LCD_SDA_PIN  1
-#define LCD_SCL_PIN  2
 
 #define UP     24
 #define RIGHT  90
@@ -243,8 +241,18 @@ void update(unsigned long keycode){
 
     if (!mode) { // Inventory Mode
         displayInventory();
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Displaying");
+        lcd.setCursor(0,1);
+        lcd.print("Inventory");
     } else { // Selection Mode
         displaySelection(keycode);
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Selecting Item");
+        lcd.setCursor(0,1);
+        lcd.print("Slot...");
     }
 }
 
@@ -265,6 +273,10 @@ void setup() {
 
 void loop()
 {
+    lcd.setCursor(0,0);
+    lcd.print("Inventory Initialized");
+    lcd.setCursor(0,1);
+    lcd.print("Waiting For Input...");
     unsigned long keycode = 1000;
     if (IrReceiver.decode()) {
         keycode = IrReceiver.decodedIRData.command;
@@ -272,11 +284,4 @@ void loop()
         delay(INPUTSPEED);
         IrReceiver.resume();
     }
-
-    lcd.setCursor(0,0);
-    lcd.print("waka :3");
-    delay(1000);
-    lcd.clear();
-    delay(1000);
-
 }
