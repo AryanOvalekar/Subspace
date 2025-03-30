@@ -265,7 +265,7 @@ void update(unsigned long keycode){
         printInventory();
     }
     if (mode && keycode == CHANGEMODE){
-        printSelection()
+        printSelection();
     }
 }
 
