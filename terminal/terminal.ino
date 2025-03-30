@@ -102,16 +102,12 @@ void printWithdrawl(){
     lcd.print("Item...");
 }
 
-void printErrorFull(){
+void printHi(){
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("Slot Full!");
-}
-
-void printErrorEmpty(){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Slot Empty!");
+    lcd.print("HI");
+    lcd.setCursor(0,1);
+    lcd.print("WAKA...");
 }
 
 void errorAnimation(){
@@ -214,7 +210,6 @@ void sendCommand(bool isDeposit){
 
 void deposit(){
     if (inventory[selectY][selectX]){
-        printErrorFull();
         errorAnimation();
         printSelection();
     } else {
@@ -232,7 +227,6 @@ void deposit(){
 
 void withdraw(){
     if (!inventory[selectY][selectX]){
-        printErrorEmpty();
         errorAnimation();
         printSelection();
     } else {
