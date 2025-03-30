@@ -7,9 +7,7 @@
 #define RMOTOR_FORWARD 4
 #define RMOTOR_BACKWARD 7
 
-RH_ASK driver(2000);
-
-bool reverse = false;
+RH_ASK driver;
 
 void setup() {
     // pinMode(leftMotor, OUTPUT);
@@ -48,15 +46,55 @@ void right_motor(int direction) {
   }
 }
 
-void loop() {
+enum Routine {
+  RT_WAITING = 0,
+  RT_DEPOSIT,
+  RT_WITHDRAW,
+};
 
-    // uint8_t buf[4];
-    // uint8_t buflen = sizeof(buf);
-    // if (driver.recv(buf, &buflen)) // Non-blocking
-    // {
-    //   int i;
-    //   // Message with a good checksum received, dump it.
-    //   Serial.print("Message: ");
-    //   Serial.println((char*)buf);         
-    // }
+int currentRoutine = 0;
+uint8_t targetX = 0, targetY = 0;
+uint8_t recvBuf[4];
+
+// this routine gets called when we're waiting for a message from the terminal
+void rt_waiting() {
+  memset(waitingBuf, 0, 4)
+  uint8_t buflen = 4;
+  while (!driver.recv(waitingBuf, &buflen)) {
+    delay(100);
+  }
+
+  // Message with a good checksum received, dump it.
+  Serial.print("Message: ");
+  Serial.println((char*)buf);
+
+  char* type = recvBuf[0];
+  targetX = (uint8_t)recvBuf[1];
+  targetY = (uint8_t)recvBuf[2];
+  if(type == 'd') {
+    // deposit
+    currentRoutine = RT_DEPOSIT;
+  } else if (type == 'w') {
+    // withdraw
+    currentRoutine = RT_WITHDRAW;
+  }
+}
+
+void rt_deposit() {
+
+}
+
+void rt_withdraw() {
+
+}
+
+void (*routines[3])() = {
+    rt_waiting,
+    rt_deposit,
+    rt_withdraw
+};
+
+
+void loop() {
+    routines[currentRoutine]();
 }
