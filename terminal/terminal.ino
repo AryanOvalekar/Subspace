@@ -217,17 +217,17 @@ void deposit(){
         printErrorFull();
         errorAnimation();
         printSelection();
-        return;
+    } else {
+        inventory[selectY][selectX] = true;
+        sendCommand(true);
+        printDeposit();
+        loadingAnimation();
+        mode = false;
+        displayInventory();
+        printInventory();
+        selectX = 0;
+        selectY = 0;
     }
-    inventory[selectY][selectX] = true;
-    sendCommand(true);
-    printDeposit();
-    loadingAnimation();
-    mode = false;
-    displayInventory();
-    printInventory();
-    selectX = 0;
-    selectY = 0;
 }
 
 void withdraw(){
@@ -235,17 +235,17 @@ void withdraw(){
         printErrorEmpty();
         errorAnimation();
         printSelection();
-        return;
+    } else {
+        inventory[selectY][selectX] = false;
+        sendCommand(false);
+        printWithdrawl();
+        loadingAnimation2();
+        mode = false;
+        displayInventory();
+        printInventory();
+        selectX = 0;
+        selectY = 0;
     }
-    inventory[selectY][selectX] = false;
-    sendCommand(false);
-    printWithdrawl();
-    loadingAnimation2();
-    mode = false;
-    displayInventory();
-    printInventory();
-    selectX = 0;
-    selectY = 0;
 }
 
 
