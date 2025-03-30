@@ -269,14 +269,14 @@ void setup() {
     driver.init();
     lcd.init();
     lcd.backlight();
+    lcd.setCursor(0,0);
+    lcd.print("Inventory Ready");
+    lcd.setCursor(0,1);
+    lcd.print("Awaiting Input..");
 }
 
 void loop()
 {
-    lcd.setCursor(0,0);
-    lcd.print("Inventory Initialized");
-    lcd.setCursor(0,1);
-    lcd.print("Waiting For Input...");
     unsigned long keycode = 1000;
     if (IrReceiver.decode()) {
         keycode = IrReceiver.decodedIRData.command;
