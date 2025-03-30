@@ -70,44 +70,12 @@ void displayMatrix(bool matrix[8][8]) {
     }
 }
 
-void printInventory(){
+void printToScreen(char * line1, char * line2){
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("Displaying");
+    lcd.print(line1);
     lcd.setCursor(0,1);
-    lcd.print("Inventory");
-}
-
-void printSelection(){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Selecting Item");
-    lcd.setCursor(0,1);
-    lcd.print("Slot...");
-}
-
-void printDeposit(){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Depositing");
-    lcd.setCursor(0,1);
-    lcd.print("Item...");
-}
-
-void printWithdrawl(){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Withdrawing");
-    lcd.setCursor(0,1);
-    lcd.print("Item...");
-}
-
-void printHi(){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("HI");
-    lcd.setCursor(0,1);
-    lcd.print("WAKA...");
+    lcd.print(line2);
 }
 
 void errorAnimation(){
@@ -210,16 +178,17 @@ void sendCommand(bool isDeposit){
 
 void deposit(){
     if (inventory[selectY][selectX]){
+        printToScreen("Slot Full!", "");
         errorAnimation();
-        printSelection();
+        printToScreen("Selecting Item", "Slot...");
     } else {
         inventory[selectY][selectX] = true;
         sendCommand(true);
-        printDeposit();
+        printToScreen("Depositing", "Item...");
         loadingAnimation();
         mode = false;
         displayInventory();
-        printInventory();
+        printToScreen("Displaying", "Inventory");
         selectX = 0;
         selectY = 0;
     }
@@ -227,16 +196,17 @@ void deposit(){
 
 void withdraw(){
     if (!inventory[selectY][selectX]){
+        printToScreen("Slot Empty!", "");
         errorAnimation();
-        printSelection();
+        printToScreen("Selecting Item", "Slot...");
     } else {
         inventory[selectY][selectX] = false;
         sendCommand(false);
-        printWithdrawl();
+        printToScreen("Withdrawing", "Item...");
         loadingAnimation2();
         mode = false;
         displayInventory();
-        printInventory();
+        printToScreen("Displaying", "Inventory");
         selectX = 0;
         selectY = 0;
     }
@@ -292,10 +262,10 @@ void update(unsigned long keycode){
     }
 
     if (!mode && keycode == CHANGEMODE){
-        printInventory();
+        printToScreen("Displaying", "Inventory");
     }
     if (mode && keycode == CHANGEMODE){
-        printSelection();
+        printToScreen("Selecting Item", "Slot...");
     }
 }
 
